@@ -1,6 +1,5 @@
 import express from "express";
 import * as bcrypt from "bcrypt";
-import { MESSAGES } from "../constants/errors";
 import { validateCreateUser, validateFindUser } from "../validation";
 import {
   createUser,
@@ -8,6 +7,7 @@ import {
   getUsers,
   updateUser,
 } from "../database/queries/users";
+import { getMessage } from "../constants/messages";
 
 const usersRoutes = express.Router();
 
@@ -37,7 +37,7 @@ usersRoutes.post("/", async ({ body }, res) => {
     const hashedPassword: string = await bcrypt.hash(password, 10);
 
     await createUser({ ...user, password: hashedPassword });
-    res.status(201).send({ message: MESSAGES.USER_CREATED });
+    res.status(201).send({ message: getMessage().CREATED });
   }
 });
 
@@ -46,7 +46,7 @@ usersRoutes.put("/:id", async ({ params, body }, res) => {
 
   if (validatedUser) {
     await updateUser({ ...validatedUser, ...body });
-    res.status(201).send({ message: MESSAGES.USER_CHANGED });
+    res.status(201).send({ message: getMessage().CHANGED });
   }
 });
 
@@ -55,7 +55,7 @@ usersRoutes.patch("/:id", async ({ params, body }, res) => {
 
   if (validatedUser) {
     await updateUser({ ...validatedUser, ...body });
-    res.status(200).send({ message: MESSAGES.USER_CHANGED });
+    res.status(200).send({ message: getMessage().CHANGED });
   }
 });
 
@@ -64,7 +64,7 @@ usersRoutes.delete("/:id", async ({ params }, res) => {
 
   if (validatedUser) {
     await deleteUser(params.id);
-    res.status(200).send({ message: MESSAGES.USER_REMOVED });
+    res.status(200).send({ message: getMessage().REMOVED });
   }
 });
 
