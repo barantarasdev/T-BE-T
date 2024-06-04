@@ -1,5 +1,10 @@
-/node_modules
 /dist
 .env
 .dockerignore
 /database
+.idea/
+.vscode/
+node_modules/
+build/
+tmp/
+temp/

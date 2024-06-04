@@ -7,8 +7,17 @@
     "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
-    "types": ["dotenv"]
+    "types": ["dotenv"],
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "strictPropertyInitialization": false
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
+  }
 }

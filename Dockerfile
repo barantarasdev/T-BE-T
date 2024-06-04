@@ -13,3 +13,5 @@ RUN yarn build
 EXPOSE $PORT
 
 CMD ["yarn", "dev"]
+
+# CMD npx typeorm migration:run -d dist/db/dataSourceProd.js && node dist/index.js
