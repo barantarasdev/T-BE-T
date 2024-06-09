@@ -1,6 +1,9 @@
-// import { pool } from "..";
-// import { Factory } from "../../types";
+import { Factory } from "../entities/factory";
+import { AppDataSource } from "../dataSource";
+import { CreateFactoryDto } from "../../routes/factories/dto/createFactory.dto";
 
-// export async function createFactory({ name }: Omit<Factory, "id">) {
-//   return await pool.query("INSERT INTO factory (name) VALUES ($1);", [name]);
-// }
+export async function createFactory({ name }: CreateFactoryDto) {
+  return await AppDataSource.getRepository(Factory).save({
+    name,
+  });
+}

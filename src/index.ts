@@ -1,11 +1,12 @@
 import "reflect-metadata";
 import express from "express";
 import dotenv from "dotenv";
-import usersRoutes from "./routes/users";
 import { cors } from "./middleware/cors";
-import productsRoutes from "./routes/products";
-import factoriesRoutes from "./routes/factories";
-import AppDataSource from "./database/data-source";
+import { AppDataSource } from "./database/dataSource";
+import productFactoriesRoutes from "./routes/productFactories/productFactories.route";
+import usersRoutes from "./routes/users/users.route";
+import productsRoutes from "./routes/products/products.route";
+import factoriesRoutes from "./routes/factories/factories.route";
 
 dotenv.config();
 
@@ -16,9 +17,10 @@ app.use(cors);
 app.use("/users", usersRoutes);
 app.use("/products", productsRoutes);
 app.use("/factories", factoriesRoutes);
+app.use("/productFactories", productFactoriesRoutes);
 
 AppDataSource.initialize()
-.then(async () => {
-  app.listen(process.env.PORT);
-})
-.catch((error) => console.log(error));
+  .then(async () => {
+    app.listen(process.env.LOCAL_PORT);
+  })
+  .catch((error) => console.log(error));

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "./dist",
+    "outDir": "./build",
     "rootDir": "./src",
     "esModuleInterop": true,
     "strict": true,
@@ -14,10 +14,5 @@
     "sourceMap": true,
     "strictPropertyInitialization": false
   },
-  "exclude": ["node_modules"],
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS"
-    }
-  }
+  "exclude": ["node_modules"]
 }

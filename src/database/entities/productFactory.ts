@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+  Column,
+} from "typeorm";
 import { Product } from "./product";
 import { Factory } from "./factory";
 
@@ -6,6 +12,12 @@ import { Factory } from "./factory";
 export class Product_factory {
   @PrimaryGeneratedColumn("uuid")
   id: string;
+
+  @Column()
+  product_id: string;
+
+  @Column()
+  factory_id: string;
 
   @ManyToOne(() => Product, (product) => product.factory)
   @JoinColumn({ name: "product_id" })

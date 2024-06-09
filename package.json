@@ -5,12 +5,12 @@
   "main": "src/index.ts",
   "scripts": {
     "lint": "eslint --ext .ts",
-    "build": "npx tsc",
-    "dev": "nodemon src/index.ts",
-    "typeorm:generate": "npx typeorm-ts-node-esm migration:generate -d src/database/data-source.ts",
-    "typeorm:migrate": "npx typeorm-ts-node-esm migration:run -d src/database/data-source.ts",
-    "typeorm:revert": "npx typeorm-ts-node-esm migration:revert -d src/database/data-source.ts",
-    "typeorm:drop": "npx typeorm-ts-node-esm schema:drop -d src/database/data-source.ts"
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "seed": "ts-node ./src/database/seeds/index.ts",
+    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d ./src/database/dataSource.ts",
+    "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ./src/database/dataSource.ts",
+    "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/database/dataSource.ts"
   },
   "author": "",
   "license": "ISC",

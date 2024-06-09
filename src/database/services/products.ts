@@ -1,68 +1,59 @@
-// import { pool } from "..";
-// import { Product, ProductFactory } from "../../types";
+import { Product } from "../entities/product";
+import { AppDataSource } from "../dataSource";
+import { SearchProductsDto } from "../../routes/products/dto/searchProducts.dto";
+import { CreateProductDto } from "../../routes/products/dto/createProduct.dto";
+import { Product_factory } from "../entities/productFactory";
 
-// export async function getAllProducts() {
-//   return await pool.query(
-//     `SELECT
-//       p.id,
-//       p.name,
-//       p.quantity,
-//       p.user_id AS userId,
-//       COUNT(pf.product_id) AS dublicatedProducts
-//     FROM
-//       product p
-//     LEFT JOIN
-//       user_ u ON p.user_id = u.id
-//     LEFT JOIN
-//       product_factory pf ON pf.product_id = p.id
-//     GROUP BY
-//       p.id,
-//       p.name,
-//       p.quantity,
-//       p.user_id;`,
-//     [],
-//   );
-// }
+export async function getAllProducts() {
+  return await AppDataSource.getRepository(Product)
+    .createQueryBuilder("product")
+    .select([
+      "product.id",
+      "product.name",
+      "product.quantity",
+      "product_factory.factory_id AS factoryId",
+      "COUNT(product_factory) AS duplicatedProducts",
+    ])
+    .leftJoin(
+      "product_factory",
+      "product_factory",
+      "product_factory.product_id = product.id",
+    )
+    .leftJoin("factory", "factory", "factory.id = product_factory.factory_id")
+    .groupBy("product.id")
+    .addGroupBy("product.name")
+    .addGroupBy("product.quantity")
+    .addGroupBy("product_factory.factory_id")
+    .getRawMany();
+}
 
-// export async function searchProduct(
-//   partOfProductName: string,
-//   lastId: string,
-//   limit: number,
-// ) {
-//   return await pool.query(
-//     `SELECT
-//       *
-//     FROM
-//       product
-//     WHERE
-//       id < $2 AND name LIKE $1
-//     ORDER BY
-//       id
-//     LIMIT $3
-//     ;`,
-//     [`%${partOfProductName}%`, lastId, limit],
-//   );
-// }
+export async function searchProducts({
+  partOfProductName,
+  lastId,
+  limit,
+}: SearchProductsDto) {
+  return await AppDataSource.getRepository(Product)
+    .createQueryBuilder("product")
+    .where("product.id < :lastId", { lastId })
+    .andWhere("product.name LIKE :name", { name: `%${partOfProductName}%` })
+    .orderBy("product.id")
+    .limit(limit)
+    .getMany();
+}
 
-// export async function createProduct({
-//   name,
-//   quantity,
-//   price,
-//   userId,
-//   factoryId,
-// }: Omit<Product, "id">) {
-//   return await pool.query(
-//     "INSERT INTO product (name, quantity, price, user_id, factory_id) VALUES ($1, $2, $3, $4, $5) RETURNING id;",
-//     [name, quantity, price, userId, factoryId],
-//   );
-// }
+export async function createProduct({
+  name,
+  quantity,
+  factoryId,
+  price,
+}: CreateProductDto) {
+  const productRepository = AppDataSource.getRepository(Product);
+  const newProduct = productRepository.create({
+    name,
+    quantity,
+    price,
+    factory: { id: factoryId },
+  });
 
-// export async function createProductFactory({
-//   productId,
-//   factoryId,
-// }: Omit<ProductFactory, "id">) {
-//   return await pool.query(
-//     "INSERT INTO product_factory (product_id, factory_id) VALUES ($1, $2);",
-//     [productId, factoryId],
-//   );
-// }
+  return await productRepository.save(newProduct);
+}
