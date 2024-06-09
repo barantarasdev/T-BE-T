@@ -5,8 +5,12 @@
   "main": "src/index.ts",
   "scripts": {
     "lint": "eslint --ext .ts",
-    "build": "npx tsc",
-    "dev": "npm run build && nodemon --quiet dist/index.js"
+    "build": "tsc",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "seed": "ts-node ./src/database/seeds/index.ts",
+    "migration:generate": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:generate -d ./src/database/dataSource.ts",
+    "migration:up": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:run -d ./src/database/dataSource.ts",
+    "migration:down": "./node_modules/.bin/ts-node ./node_modules/.bin/typeorm migration:revert -d ./src/database/dataSource.ts"
   },
   "author": "",
   "license": "ISC",
@@ -14,7 +18,10 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
-    "pg": "^8.11.5"
+    "pg": "^8.4.0",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.2",
+    "typeorm": "0.3.20"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

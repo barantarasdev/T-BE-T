@@ -2,13 +2,17 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "CommonJS",
-    "outDir": "./dist",
+    "outDir": "./build",
     "rootDir": "./src",
     "esModuleInterop": true,
     "strict": true,
     "noImplicitAny": true,
-    "types": ["dotenv"]
+    "types": ["dotenv"],
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "strictPropertyInitialization": false
   },
-  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }
