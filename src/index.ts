@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import dotenv from "dotenv";
 import { cors } from "./middleware/cors";
 import { AppDataSource } from "./database/dataSource";
@@ -9,6 +9,17 @@ import productsRoutes from "./routes/products/products.route";
 import factoriesRoutes from "./routes/factories/factories.route";
 import logger from "./logger";
 import authRoutes from "./routes/auth/auth.route";
+
+export function errorHandler(
+  err: Error & { statusCode: number | undefined },
+  _: Request,
+  res: Response,
+  _2: NextFunction,
+) {
+  res.status(err.statusCode || 500).json({
+    message: err.message || "Internal Server Error",
+  });
+}
 
 dotenv.config();
 
@@ -27,3 +38,5 @@ AppDataSource.initialize()
     app.listen(process.env.LOCAL_PORT);
   })
   .catch((error) => logger.info(error));
+
+app.use(errorHandler);

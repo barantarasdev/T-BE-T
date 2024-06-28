@@ -11,7 +11,7 @@ import { verifyRefreshToken } from "../../middleware/verifyRefreshToken";
 const authRoutes = express.Router();
 const authService = new AuthService();
 
-authRoutes.get(
+authRoutes.post(
   "/register",
   validateRegisterData,
   async (req: express.Request, res: express.Response) => {
@@ -25,7 +25,7 @@ authRoutes.get(
   },
 );
 
-authRoutes.get("/login", async ({ body }, res) => {
+authRoutes.post("/login", async ({ body }, res) => {
   return res.status(200).send(await authService.login(body));
 });
 
@@ -39,7 +39,7 @@ authRoutes.get(
   },
 );
 
-authRoutes.get("/logout", verifyAccessToken, async ({ body }, res) => {
+authRoutes.post("/logout", async ({ body }, res) => {
   return res.status(200).send(await authService.logout(body));
 });
 

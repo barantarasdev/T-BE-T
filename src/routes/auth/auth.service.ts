@@ -95,7 +95,7 @@ class AuthService {
       refreshToken,
     });
 
-    return { refreshToken, accessToken };
+    return { refreshToken, accessToken, name: user.name };
   }
 
   async refreshToken(token: string) {
