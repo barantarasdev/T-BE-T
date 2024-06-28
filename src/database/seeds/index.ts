@@ -4,6 +4,7 @@ import { Factory } from "../entities/factory";
 import { Product } from "../entities/product";
 import { Product_factory } from "../entities/productFactory";
 import { AppDataSource } from "../dataSource";
+import { Token } from "../entities/token";
 
 AppDataSource.initialize().then(async () => {
   //user
@@ -12,6 +13,12 @@ AppDataSource.initialize().then(async () => {
   user.email = "john@example.com";
   user.password = "password123";
   await AppDataSource.getRepository(User).save(user);
+
+  // token
+  const token = new Token();
+  token.user = user;
+  token.refreshToken = "jkfsd423jifiwjf213lk";
+  await AppDataSource.getRepository(Token).save(token);
 
   //factory
   const factory = new Factory();

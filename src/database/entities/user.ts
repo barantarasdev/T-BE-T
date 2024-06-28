@@ -6,6 +6,7 @@ import {
   OneToMany,
 } from "typeorm";
 import { Product } from "./product";
+import { Token } from "./token";
 
 @Entity("user_")
 @Unique(["email"])
@@ -24,4 +25,7 @@ export class User {
 
   @OneToMany(() => Product, (product) => product.user)
   products?: Product[];
+
+  @OneToMany(() => Token, (token) => token.user)
+  tokens: Token[];
 }

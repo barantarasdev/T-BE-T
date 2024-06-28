@@ -7,6 +7,8 @@ import productFactoriesRoutes from "./routes/productFactories/productFactories.r
 import usersRoutes from "./routes/users/users.route";
 import productsRoutes from "./routes/products/products.route";
 import factoriesRoutes from "./routes/factories/factories.route";
+import logger from "./logger";
+import authRoutes from "./routes/auth/auth.route";
 
 dotenv.config();
 
@@ -18,9 +20,10 @@ app.use("/users", usersRoutes);
 app.use("/products", productsRoutes);
 app.use("/factories", factoriesRoutes);
 app.use("/productFactories", productFactoriesRoutes);
+app.use("/auth", authRoutes);
 
 AppDataSource.initialize()
   .then(async () => {
     app.listen(process.env.LOCAL_PORT);
   })
-  .catch((error) => console.log(error));
+  .catch((error) => logger.info(error));
