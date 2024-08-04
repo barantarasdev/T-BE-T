@@ -23,10 +23,10 @@ export async function createMessage(
   });
 }
 
-export async function updateMessage({ text, messageId }: UpdateMessageDto) {
+export async function updateMessage(id: string, { text }: UpdateMessageDto) {
   const messageRepository = AppDataSource.getRepository(Message);
   const message = await messageRepository.findOneBy({
-    id: messageId,
+    id,
   });
 
   if (!message) {
@@ -38,9 +38,9 @@ export async function updateMessage({ text, messageId }: UpdateMessageDto) {
   return await messageRepository.save(message);
 }
 
-export async function deleteMessage(senderId: string) {
+export async function deleteMessage(id: string) {
   const messageRepository = AppDataSource.getRepository(Message);
-  const message = await messageRepository.findOneBy({ sender_id: senderId });
+  const message = await messageRepository.findOneBy({ id });
 
   if (!message) {
     throw new NotFoundError(getMessage("message").NOT_FOUND);

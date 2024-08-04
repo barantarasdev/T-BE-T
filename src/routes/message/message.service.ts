@@ -1,14 +1,16 @@
+import { getMessage } from "../../constants/messages";
 import {
   createMessage,
   deleteMessage,
   getMessagesByUserId,
   updateMessage,
 } from "../../database/services/message";
+import { BadRequestError } from "../../error";
 import { CreateMessageDto } from "./dto/createMessage.dto";
 import { UpdateMessageDto } from "./dto/updateMessage.dto";
 
 class MessageService {
-  async getMessagesBySenderId(senderId: string) {
+  async getMessagesByUserId(senderId: string) {
     return await getMessagesByUserId(senderId);
   }
 
@@ -16,12 +18,12 @@ class MessageService {
     return await createMessage(senderId, dto);
   }
 
-  async updateMessage(dto: UpdateMessageDto) {
-    return await updateMessage(dto);
+  async updateMessage(id: string, dto: UpdateMessageDto) {
+    return await updateMessage(id, dto);
   }
 
-  async deleteMessage(senderId: string) {
-    return await deleteMessage(senderId);
+  async deleteMessage(id: string) {
+    return await deleteMessage(id);
   }
 }
 

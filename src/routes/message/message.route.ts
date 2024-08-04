@@ -13,7 +13,7 @@ messageRoutes.use(verifyAccessToken);
 messageRoutes.get("/", async (req: CustomRequest, res) => {
   return res
     .status(200)
-    .send(await messageService.getMessagesBySenderId(req.user?.userId || ""));
+    .send(await messageService.getMessagesByUserId(req.user?.userId || ""));
 });
 
 messageRoutes.post("/", async (req: CustomRequest, res) => {
@@ -22,14 +22,14 @@ messageRoutes.post("/", async (req: CustomRequest, res) => {
     .send(await messageService.createMessage(req.user?.userId || "", req.body));
 });
 
-messageRoutes.put("/", async (req: CustomRequest, res) => {
-  return res.status(200).send(await messageService.updateMessage(req.body));
-});
-
-messageRoutes.delete("/", async (req: CustomRequest, res) => {
+messageRoutes.put("/:id", async ({ params, body }, res) => {
   return res
     .status(200)
-    .send(await messageService.deleteMessage(req.user?.userId || ""));
+    .send(await messageService.updateMessage(params.id, body));
+});
+
+messageRoutes.delete("/:id", async ({ params }, res) => {
+  return res.status(200).send(await messageService.deleteMessage(params.id));
 });
 
 export default messageRoutes;
