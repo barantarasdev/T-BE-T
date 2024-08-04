@@ -1,9 +1,6 @@
 import express from "express";
 import AuthService from "./auth.service";
-import {
-  CustomRequest,
-  verifyAccessToken,
-} from "../../middleware/verifyAccessToken";
+import { CustomRequest } from "../../middleware/verifyAccessToken";
 import { validateRegisterData } from "./validate/validate.register";
 import { validationResult } from "express-validator";
 import { verifyRefreshToken } from "../../middleware/verifyRefreshToken";

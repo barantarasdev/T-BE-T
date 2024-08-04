@@ -2,7 +2,9 @@ import { body } from "express-validator";
 import { VALIDATION } from "../../../constants/validation";
 
 export const validateRegisterData = [
-  body("name").isLength({ min: 2, max: 30 }).withMessage("Minimum 2 symbols"),
+  body("name")
+    .isLength({ min: 2, max: 30 })
+    .withMessage("Name - minimum 2 symbols"),
   body("email").matches(VALIDATION.EMAIL).withMessage("Email is not valid"),
   body("password")
     .matches(VALIDATION.PASSWORD)

@@ -9,6 +9,7 @@ import productsRoutes from "./routes/products/products.route";
 import factoriesRoutes from "./routes/factories/factories.route";
 import logger from "./logger";
 import authRoutes from "./routes/auth/auth.route";
+import messageRoutes from "./routes/message/message.route";
 
 export function errorHandler(
   err: Error & { statusCode: number | undefined },
@@ -32,6 +33,7 @@ app.use("/products", productsRoutes);
 app.use("/factories", factoriesRoutes);
 app.use("/productFactories", productFactoriesRoutes);
 app.use("/auth", authRoutes);
+app.use("/messages", messageRoutes);
 
 AppDataSource.initialize()
   .then(async () => {
